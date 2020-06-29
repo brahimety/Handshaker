@@ -1,3 +1,3 @@
 # Handshaker
 
-<img src="https://i.imgur.com/54ekbvd.png">
+<img src="https://i.imgur.com/54ekbvd">
