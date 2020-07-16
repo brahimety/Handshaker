@@ -392,7 +392,7 @@ else
 CHANNEL=`echo $CHANNEL | awk '{gsub(/ /,""); print}'`
 fi
 if [ "$ESSID" = "" ] || [ "$CHANNEL" = "-1" ]; then
-ESSID="(Hidden Network)"
+ESSID="(Hidden Network-ok)"
 fi
 echo -e "$MAC,$CHANNEL,$POWER,$ESSID" >> redes/Redes.txt
 fi
