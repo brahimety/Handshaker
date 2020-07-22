@@ -392,7 +392,7 @@ else
 CHANNEL=`echo $CHANNEL | awk '{gsub(/ /,""); print}'`
 fi
 if [ "$ESSID" = "" ] || [ "$CHANNEL" = "-1" ]; then
-ESSID="(Hidden Network-ok)"
+ESSID="(Hidden Network)"
 fi
 echo -e "$MAC,$CHANNEL,$POWER,$ESSID" >> redes/Redes.txt
 fi
@@ -461,7 +461,7 @@ CANAL=${canales[$select]}
 bssid=${macs[$select]}
 bssidseparado=`echo $bssid | awk '{gsub(/:/,"-"); print}'`
 echo ""
-if [ "$essid" = "(Hidden Network)" ]; then
+if [ "$essid" = "(SKN WAS HERE)" ]; then
 echo -e $rojo ""
 echo -e " ERROR!: you have selected a hidden network..."
 echo -e $amarillo""
@@ -567,7 +567,9 @@ echo -e $magenta "════════════════════�
 echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
 echo -e $magenta "══════════════════════════════════════════════════"
 #wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
-mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$essid"_"$bssidseparado.cap" > /dev/null 2>&1
+#ADD HIDDEN
+Hidden=`cat ./redes/"$essid ($bssidseparado)"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
 KILL
 ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
 echo ""
@@ -649,7 +651,9 @@ echo -e $magenta "════════════════════�
 echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
 echo -e $magenta "══════════════════════════════════════════════════"
 #wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
-mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$essid"_"$bssidseparado.cap" > /dev/null 2>&1
+#ADD HIDDEN
+Hidden=`cat ./redes/"$essid ($bssidseparado)"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
 KILL
 ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
 echo ""
@@ -716,7 +720,9 @@ echo -e $magenta "════════════════════�
 echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
 echo -e $magenta "══════════════════════════════════════════════════"
 #wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
-mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$essid"_"$bssidseparado.cap" > /dev/null 2>&1
+#ADD HIDDEN
+Hidden=`cat ./redes/"$essid ($bssidseparado)"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
 KILL
 ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
 echo ""
