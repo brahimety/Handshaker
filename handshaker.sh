@@ -568,7 +568,7 @@ echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
 echo -e $magenta "══════════════════════════════════════════════════"
 #wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
 #ADD HIDDEN
-Hidden=`cat ./redes/"$essid ($bssidseparado)"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+Hidden=`cat ./redes/"$essid"_"$bssidseparado"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
 mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
 KILL
 ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
@@ -652,7 +652,7 @@ echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
 echo -e $magenta "══════════════════════════════════════════════════"
 #wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
 #ADD HIDDEN
-Hidden=`cat ./redes/"$essid ($bssidseparado)"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+Hidden=`cat ./redes/"$essid"_"$bssidseparado"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
 mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
 KILL
 ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
@@ -721,7 +721,7 @@ echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
 echo -e $magenta "══════════════════════════════════════════════════"
 #wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
 #ADD HIDDEN
-Hidden=`cat ./redes/"$essid ($bssidseparado)"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+Hidden=`cat ./redes/"$essid"_"$bssidseparado"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
 mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
 KILL
 ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
